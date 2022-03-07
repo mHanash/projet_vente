@@ -1,6 +1,13 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DistributionController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StoreController;
+use App\Http\Controllers\UserController;
+use Illuminate\Routing\Route as RoutingRoute;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,12 +20,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login.index');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::middleware('auth')->group(function(){
+    Route::get('/admin',[HomeController::class,'index'])->name('index');
+
+    Route::get('/product',[ProductController::class,'index'])->name('product');
+    Route::get('/product/{id}',[ProductController::class,'edit'])->name('product.edit');
+
+    Route::get('/personal',[UserController::class,'index'])->name('personal');
+    Route::get('/personal/{id}',[UserController::class,'edit'])->name('personal.edit');
+
+    Route::get('/customer',[CustomerController::class,'index'])->name('customer');
+    Route::get('/customer/{id}',[CustomerController::class,'edit'])->name('customer.edit');
+
+    Route::get('/distribution',[DistributionController::class,'index'])->name('distribution');
+    Route::get('/distribution/{id}',[DistributionController::class,'edit'])->name('distribution.edit');
+
+    Route::get('/store/{name}',[StoreController::class,'index'])->name('store');
+    Route::get('/store/{name}/{id}',[StoreController::class,'edit'])->name('store.edit');
+
+
+});
 
 require __DIR__.'/auth.php';
