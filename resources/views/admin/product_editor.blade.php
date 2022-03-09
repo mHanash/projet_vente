@@ -6,52 +6,59 @@
             <div class="row align-items-center justify-content-center">
                 <div class="col-5">
                     <h4 class="page-title" style="text-align: center">Modifier les informations du produit <br />
-                        {{ 'Name' }}
+                        {{ $product->name }}
                     </h4>
                 </div>
             </div>
         </div>
         <div class="content-fluid">
             <div class="card">
-                <form class="form-horizontal">
+                <form method="POST" action="{{ route('product.update') }}" class="form-horizontal" >
                     <div class="card-body">
                         <div class="form-group row">
                             <label for="name" class="col-sm-3 text-end control-label col-form-label">Nom du produit</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" name="name" />
+                                <input type="text" class="form-control" name="name" value="{{$product->name}}"/>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="qteEmballage" class="col-sm-3 text-end control-label col-form-label">Emballage
                                 (Quantité)</label>
                             <div class="col-sm-9">
-                                <input type="number" class="form-control" name="qteEmballage" />
+                                <input type="number" class="form-control" name="qteEmballage" value="{{$product->qteEmballage}}"/>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="typeEmballage" class="col-sm-3 text-end control-label col-form-label">Emballage</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" name="typeEmballage" />
+                                <input type="text" class="form-control" name="typeEmballage" value="{{$product->typeEmballage}}"/>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="origine" class="col-sm-3 text-end control-label col-form-label">Origine</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" name="origine" />
+                                <input type="text" class="form-control" name="origine" value="{{$product->origine}}"/>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="weight" class="col-sm-3 text-end control-label col-form-label">Poids (KG)</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" name="weight" />
+                                <input type="text" class="form-control" name="weight" value="{{$product->weight}}"/>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="type" class="col-sm-3 text-end control-label col-form-label">Type</label>
                             <div class="col-sm-9">
                                 <select class="form-control" name="type">
-                                    <option value="">opt 1</option>
-                                    <option value="">opt 1</option>
+                                @if(isset($types))
+                                    @foreach ($types as $type)
+                                    @if ( $product->type->id == $type->id)
+                                    <option value="{{ $type->id }}" selected>{{ $type->name }}</option>
+                                    @else
+                                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                    @endif
+                                    @endforeach
+                                @endif
                                 </select>
                                 <a href="#" class="btn btn-primary btn-sm mt-1" data-bs-toggle="modal"
                                     data-bs-target="#addType"><i class="mdi mdi-plus"></i> Nouveau
@@ -62,8 +69,15 @@
                             <label for="category" class="col-sm-3 text-end control-label col-form-label">Catégorie</label>
                             <div class="col-sm-9">
                                 <select class="form-control" name="type">
-                                    <option value="">opt 1</option>
-                                    <option value="">opt 1</option>
+                                @if(isset($categories))
+                                    @foreach ($categories as $category)
+                                    @if ($product->category->id == $category->id )
+                                    <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                                    @else
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endif
+                                    @endforeach
+                                @endif
                                 </select>
                                 <a href="#" class="btn btn-primary btn-sm mt-1" data-bs-toggle="modal"
                                     data-bs-target="#addCategory"><i class="mdi mdi-plus"></i> Nouvelle Catégorie
@@ -74,7 +88,7 @@
                         <div class="row">
                             <div class="col-md-3"></div>
                             <div class="col-md-4">
-                                <button type="button" class="btn btn-success mb-4 text-white">
+                                <button class="btn btn-success mb-4 text-white">
                                     Modifier
                                 </button>
                             </div>

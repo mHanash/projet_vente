@@ -30,7 +30,10 @@ Route::middleware('auth')->group(function(){
     Route::get('/admin',[HomeController::class,'index'])->name('index');
 
     Route::get('/product',[ProductController::class,'index'])->name('product');
+    Route::post('/product',[ProductController::class,'store'])->name('product.store');
     Route::get('/product/{id}',[ProductController::class,'edit'])->name('product.edit');
+    Route::post('/product/update',[ProductController::class,'update'])->name('product.update');
+    Route::delete('/product/{id}',[ProductController::class,'destroy'])->name('product.delete');
 
     Route::get('/personal',[UserController::class,'index'])->name('personal');
     Route::get('/personal/{id}',[UserController::class,'edit'])->name('personal.edit');
