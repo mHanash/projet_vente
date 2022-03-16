@@ -1,111 +1,133 @@
+@php
+$i = 0;
+@endphp
 @extends('layout.main')
 @section('content')
-<div style="height:100vh;overflow:scroll">
-    <div class="page-breadcrumb">
-        <div class="row align-items-center">
-            <div class="col-5">
-                <h4 class="page-title">Tous les produits</h4>
+    <div style="height:100vh;overflow:scroll">
+        @if (session()->has('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Succès ! </strong>{{ session()->get('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-            <div class="col-7">
-                <div class="text-end upgrade-btn">
-                    <a href="#" class="btn btn-success text-white" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
-                        class="mdi mdi-plus"></i>Ajouter un produit</a>
+        @endif
+
+        @if (session()->has('fail'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Erreur ! </strong>{{ session()->get('fail') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        @if ($errors->any())
+        @foreach ($errors->all() as $error)
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Erreur ! </strong>{{ $error }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endforeach
+        @endif
+        <div class="page-breadcrumb">
+            <div class="row align-items-center">
+                <div class="col-5">
+                    <h4 class="page-title">
+                        Nos dépots
+                    </h4>
+                </div>
+                <div class="col-7">
+                    {{-- @if (count($stores) < 2) --}}
+                        <div class="text-end upgrade-btn">
+                            <a href="#" class="btn btn-success text-white" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"><i class="mdi mdi-plus"></i>Nouvel enregistrement</a>
+                        </div>
+                    {{-- @endif --}}
                 </div>
             </div>
-            </div>
         </div>
-    <div class="card mt-2" style="overflow:auto">
-        <div class="card-body">
-            <h5 class="card-title">Produits</h5>
-            <div class="table-responsive">
-                <table id="_config" class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Code</th>
-                            <th>Désignation</th>
-                            <th>Emballage (Quatité)</th>
-                            <th>Poid (KG)</th>
-                            <th>Type</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+        <div class="card mt-2" style="overflow:auto">
+            @if (count($stores) > 0)
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nom</th>
+                                    <th>Adresse</th>
+                                    <th>Contact</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($stores as $store)
+                                    @php
+                                        $i++;
+                                    @endphp
+                                    <tr>
+                                        <td>{{ $i }}</td>
+                                        <td>{{ $store->name }}</td>
+                                        <td>{{ $store->address }}</td>
+                                        <td>{{ $store->contact }}</td>
+                                        <td>
+                                            <form
+                                                onsubmit="return confirm('Voulez-vous vraiment supprimer cet enregistrement ?')"
+                                                action="{{ route('store.delete', ['id' => $store->id]) }}"
+                                                method="POST">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{ $store->id }}">
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <a title="Modifier" style="color: #fff"
+                                                href="{{ route('store.edit',['id'=>$store->id, 'name'=>$store->name]) }}"
+                                                class="btn btn-success btn-xs"><i class="fas fa-pencil-alt"></i></a>
+                                                <button title="Supprimer" style="color: #fff"
+                                                    class="btn btn-danger btn-xs"><i class="far fa-trash-alt"></i></button>
+                                            </form>
 
-                        <tr>
-                            <td>Timothy </td>
-                            <td>Office </td>
-                            <td>London</td>
-                            <td>37</td>
-                            <td>2008/12/11</td>
-                            <td>
-                                <form onsubmit="return confirm('Voulez-vous vraiment supprimer cet enregistrement ?')"
-                                    action="" method="POST" >
-                                    @csrf
-                                    <input type="hidden" name="id" value="">
-                                    <input type="hidden" name="_method" value="DELETE">
-                                    <a title="Modifier" style="color: #fff"
-                                        href="{{ route('store.edit',['id'=>1,'name'=>'Kingabwa']) }}"
-                                        class="btn btn-success btn-xs"><i class="fas fa-pencil-alt"></i></a>
-                                    <button title="Supprimer" style="color: #fff" class="btn btn-danger btn-xs"><i
-                                            class="far fa-trash-alt"></i></button>
-                                </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            @else
+                <div class="alert alert-danger">
+                    <p style="margin-bottom: 0;">Aucun dépot enregistré</p>
+                </div>
+            @endif
+        </div>
+    </div>
 
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>Code</th>
-                            <th>Désignation</th>
-                            <th>Emballage (Quatité)</th>
-                            <th>Poid (KG)</th>
-                            <th>Type</th>
-                            <th>Action</th>
-                        </tr>
-                    </tfoot>
-                </table>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nouvelle option</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="POST" action="{{ route('store.store') }}">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="name" class="form-label">Désignation</label>
+                                <input type="text" name="name" id="name" required class="form-control">
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label for="address" class="form-label">Adresse</label>
+                                <input type="text" name="address" id="address" required class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-md-6">
+                                <label for="contact" class="form-label">Contact</label>
+                                <input type="phone" name="contact" id="contact" required class="form-control">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        </div>
+                </form>
             </div>
         </div>
     </div>
-</div>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Ajouter un produit</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form method="POST" action="">
-                @csrf
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">Noms complet</label>
-                            <input type="text" class="form-control" required id="name" name="name">
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="email" class="form-label">email</label>
-                            <input type="email" class="form-control" required id="email" name="email">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="mb-3 col-md-6">
-                            <label for="phone" class="form-label">Téléphone</label>
-                            <input type="text" class="form-control" required id="phone" name="phone">
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="address" class="form-label">Adresse</label>
-                            <input type="text" class="form-control" required id="address" name="address">
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 @endsection

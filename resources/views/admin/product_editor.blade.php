@@ -13,7 +13,8 @@
         </div>
         <div class="content-fluid">
             <div class="card">
-                <form method="POST" action="{{ route('product.update') }}" class="form-horizontal" >
+                <form method="POST" action="{{ route('product.update',['id'=>$product->id]) }}" class="form-horizontal" >
+                    @csrf
                     <div class="card-body">
                         <div class="form-group row">
                             <label for="name" class="col-sm-3 text-end control-label col-form-label">Nom du produit</label>
@@ -26,6 +27,15 @@
                                 (Quantité)</label>
                             <div class="col-sm-9">
                                 <input type="number" class="form-control" name="qteEmballage" value="{{$product->qteEmballage}}"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="unit" class="col-sm-3 text-end control-label col-form-label">Unité</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" name="unit" id="unit">
+                                    <option value="KG">Kilogramme(KG)</option>
+                                    <option value="L">Litre(L)</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -79,7 +89,7 @@
                                     @endforeach
                                 @endif
                                 </select>
-                                <a href="#" class="btn btn-primary btn-sm mt-1" data-bs-toggle="modal"
+                                <a href="{{ route('category') }}" class="btn btn-primary btn-sm mt-1" data-bs-toggle="modal"
                                     data-bs-target="#addCategory"><i class="mdi mdi-plus"></i> Nouvelle Catégorie
                                 </a>
                             </div>
@@ -106,12 +116,12 @@
                     <h5 class="modal-title" id="exampleModalLabel">Ajouter un nouveau type</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" action="">
+                <form method="POST" action="{{ route('type.store') }}">
                     @csrf
                     <div class="modal-body">
                         <div class="row">
                             <div class="mb-3 coclientl-md-12">
-                                <label for="name" class="form-label">Nom du logiciel</label>
+                                <label for="name" class="form-label">Désignation</label>
                                 <input type="text" class="form-control" required id="name" name="name">
                             </div>
                         </div>

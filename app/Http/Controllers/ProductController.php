@@ -43,13 +43,14 @@ class ProductController extends Controller
         if ($product = Product::create([
             'name' => $request->name,
             'qteEmballage' => $request->qteEmballage,
+            'unit' => $request->unit,
             'typeEmballage' => $request->typeEmballage,
             'origine' => $request->origine,
             'weight' => $request->weight,
             'type_id' => $request->type,
             'category_id' => $request->category
         ])) {
-            return redirect()->back()->with('success', 'Ingénieur enregistré avec succès');
+            return redirect()->back()->with('success', 'Produit enregistré avec succès');
         } else {
             return redirect()->back()->with('fail', 'Une erreur est survenue lors de l\'enrégistrement');
         }
@@ -93,7 +94,6 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        dd('test');
         $product = Product::find($request->id);
         if ($product->update($request->all())) {
             return redirect()->route('product')->with('success', 'Produit modifié avec succès');
@@ -111,7 +111,7 @@ class ProductController extends Controller
     {
         $product = Product::find($request->id);
         if ($product->delete()) {
-            return redirect()->route('product')->with('success', 'Service modifié avec succès');
+            return redirect()->route('product')->with('success', 'Produit supprimé...');
         }
         return redirect()->route('product')->with('fail', 'Une erreur est survenue lors de la modification');
     }

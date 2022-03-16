@@ -10,9 +10,10 @@ class Store extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name','address','contact','pivot'];
 
     public function products(){
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class)->withPivot('code')
+                                                    ->withTimestamps();
     }
 }

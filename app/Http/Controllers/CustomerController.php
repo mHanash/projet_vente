@@ -14,7 +14,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        return view('admin.customer');
+        $customers = Customer::all();
+        return view('admin.customer',['customers'=>$customers]);
     }
 
     /**
@@ -35,7 +36,13 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($customer = Customer::create([
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
+            'phone' => $request->phone,])){
+            return redirect()->back()->with('success','Client enregistré');
+        }
+        return redirect()->back()->with('fail','Une erreur s\est produite lors de l\'enregistrement');
     }
 
     /**
@@ -55,9 +62,10 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Customer $customer)
+    public function edit(Request $request)
     {
-        return view('admin.customer_editor');
+        $customer = Customer::find($request->id);
+        return view('admin.customer_editor',['customer'=>$customer]);
     }
 
     /**
@@ -67,9 +75,13 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Customer $customer)
+    public function update(Request $request)
     {
-        //
+        $customer = Customer::find($request->id);
+        if($customer->update($request->all())){
+            return redirect()->route('customer')->with('success','Informations mise à jour');
+        }
+        return redirect()->route('customer')->with('fail','Une erreur s\'est produite lors de la mise');
     }
 
     /**
@@ -78,8 +90,12 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Customer $customer)
+    public function destroy(Request $request)
     {
-        //
+        $customer = Customer::find($request->id);
+        if($customer->delete()){
+            return redirect()->route('customer')->with('success','Enregistrement supprimé');
+        }
+        return redirect()->route('customer')->with('fail','Une erreur s\'est produite lors de la mise');
     }
 }

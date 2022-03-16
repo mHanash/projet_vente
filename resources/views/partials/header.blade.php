@@ -9,7 +9,7 @@
                 <!-- ============================================================== -->
                 <!-- Logo -->
                 <!-- ============================================================== -->
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" href="{{ route('index') }}">
                     <!-- Logo icon -->
                     <b class="logo-icon ps-2">
                         <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
@@ -76,8 +76,11 @@
                             <a class="dropdown-item" href="javascript:void(0)"><i
                                     class="mdi mdi-account me-1 ms-1"></i> My Profile</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="javascript:void(0)"><i
-                                    class="fa fa-power-off me-1 ms-1"></i> Logout</a>
+                           <form action="{{ route('logout') }}" method="post" class="form">
+                                @csrf
+                                <button type="submit" class="dropdown-item form-control" value=""><i
+                                    class="fa fa-power-off me-1 ms-1"></i>Logout</button>
+                            </form>
                         </ul>
                     </li>
                     <!-- ============================================================== -->

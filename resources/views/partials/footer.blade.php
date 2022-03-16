@@ -27,6 +27,7 @@
     <script src="{{ asset('assets/extra-libs/multicheck/datatable-checkbox-init.js') }}"></script>
     <script src="{{ asset('assets/extra-libs/multicheck/jquery.multicheck.js') }}"></script>
     <script src="{{ asset('assets/extra-libs/DataTables/datatables.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/jquery-validation/dist/jquery.validate.min.js') }}"></script>
     <script>
         /****************************************
          *       Basic Table                   *

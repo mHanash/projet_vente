@@ -173,21 +173,13 @@
                 <!-- Introduction -->
 
                 <div class="col-md-6 caption">
-                    @if (session()->has('danger'))
-                        <div class="alert alert-danger">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            {{ session()->get('danger') }}
-                        </div>
-                    @endif
-                    @if (session()->has('success'))
-                        <div class="alert alert-success">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            {{ session()->get('success') }}
-                        </div>
+                    @if ($errors->any())
+                    @foreach ($errors->all() as $error)
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Erreur ! </strong>{{ $error }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    @endforeach
                     @endif
 
                     <h1>Bienvenue !</h1>
