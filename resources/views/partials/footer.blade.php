@@ -6,7 +6,7 @@
     <!-- Bootstrap tether Core JavaScript -->
     <script src="{{ secure_asset('assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ secure_asset('assets/libs/perfect-scrollbar/dist/js/perfect-scrollbar.jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/extra-libs/sparkline/sparkline.js') }}"></script>
+    <script src="{{ secure_asset('assets/extra-libs/sparkline/sparkline.js') }}"></script>
     <!--Wave Effects -->
     <script src="{{ secure_asset('dist/js/waves.js') }}"></script>
     <!--Menu sidebar -->
