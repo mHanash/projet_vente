@@ -15,14 +15,13 @@
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="{{ asset('assets/images/logototal.jpg') }}"
+      href="{{ secure_asset('assets/images/logototal.jpg') }}"
     />
     <!-- Custom CSS -->
-    <link href="{{ asset('assets/libs/flot/css/float-chart.css') }}" rel="stylesheet">
-    <link href="{{ asset('dist/css/style.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('assets/extra-libs/multicheck/multicheck.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}">
-    <link rel="stylesheet" href="{{ asset('') }}">
+    <link href="{{ secure_asset('assets/libs/flot/css/float-chart.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('dist/css/style.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ secure_asset('assets/extra-libs/multicheck/multicheck.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css') }}">
 
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />

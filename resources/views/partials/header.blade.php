@@ -14,7 +14,7 @@
                     <b class="logo-icon ps-2">
                         <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                         <!-- Dark Logo icon -->
-                        <img src="{{ asset('assets/images/logo.jpg') }}" alt="homepage" class="light-logo"
+                        <img src="{{ secure_asset('assets/images/logo.jpg') }}" alt="homepage" class="light-logo"
                             style="width: 30px; height:30px;" />
                     </b>
                     <!--End Logo icon -->
@@ -70,7 +70,7 @@
                     pro-pic
                   "
                             href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ asset('assets/images/users/1.jpg') }}" alt="user" class="rounded-circle" width="31" />
+                            <img src="{{ secure_asset('assets/images/users/1.jpg') }}" alt="user" class="rounded-circle" width="31" />
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="javascript:void(0)"><i
