@@ -135,7 +135,7 @@
                                 </select>
                             </div>
                             <div class="mb-3 col-md-6">
-                                <label for="code" class="form-label">code</label>
+                                <label for="code" class="form-label">Code</label>
                                 <input type="number" class="form-control" required id="code" name="code">
                             </div>
                         </div>

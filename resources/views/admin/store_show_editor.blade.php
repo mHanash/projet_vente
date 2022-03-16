@@ -39,7 +39,7 @@
                     <input type="hidden" name="store" value="{{ $store->id }}">
                     <input type="hidden" name="id" value="{{ $product->id }}">
                    <div class="form-group row">
-                        <label for="code" class="col-sm-3 text-end control-label col-form-label">Prix pièce</label>
+                        <label for="code" class="col-sm-3 text-end control-label col-form-label">Code</label>
                         <div class="col-sm-6">
                             <input type="number" class="form-control" required name="code" value="{{ $product->pivot->code }}" />
                         </div>
