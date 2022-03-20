@@ -14,7 +14,7 @@
                     <b class="logo-icon ps-2">
                         <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                         <!-- Dark Logo icon -->
-                        <img src="{{ secure_asset('assets/images/logo.jpg') }}" alt="homepage" class="light-logo"
+                        <img src="{{ asset('assets/images/logo.jpg') }}" alt="homepage" class="light-logo"
                             style="width: 30px; height:30px;" />
                     </b>
                     <!--End Logo icon -->
@@ -61,7 +61,7 @@
                     <!-- ============================================================== -->
                     <!-- User profile and search -->
                     <!-- ============================================================== -->
-                    {{ Auth::user->firstname }}
+                    {{ Auth::user()->firstname }}
                     <li class="nav-item dropdown">
                         <a class="
                     nav-link
@@ -71,16 +71,17 @@
                     pro-pic
                   "
                             href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ secure_asset('assets/images/users/1.jpg') }}" alt="user" class="rounded-circle" width="31" />
+                            <img src="{{ asset('assets/images/users/1.jpg') }}" alt="user" class="rounded-circle"
+                                width="31" />
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="javascript:void(0)"><i
                                     class="mdi mdi-account me-1 ms-1"></i> My Profile</a>
                             <div class="dropdown-divider"></div>
-                           <form action="{{ route('logout') }}" method="post" class="form">
+                            <form action="{{ route('logout') }}" method="post" class="form">
                                 @csrf
                                 <button type="submit" class="dropdown-item form-control" value=""><i
-                                    class="fa fa-power-off me-1 ms-1"></i>Logout</button>
+                                        class="fa fa-power-off me-1 ms-1"></i>Logout</button>
                             </form>
                         </ul>
                     </li>
