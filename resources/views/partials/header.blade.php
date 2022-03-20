@@ -61,6 +61,7 @@
                     <!-- ============================================================== -->
                     <!-- User profile and search -->
                     <!-- ============================================================== -->
+                    {{ Auth::user->firstname }}
                     <li class="nav-item dropdown">
                         <a class="
                     nav-link
@@ -70,7 +71,6 @@
                     pro-pic
                   "
                             href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ Auth::user->firstname }} {{ Auth::user->lastname }}
                             <img src="{{ secure_asset('assets/images/users/1.jpg') }}" alt="user" class="rounded-circle" width="31" />
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown">
