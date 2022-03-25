@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Product;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Sale;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Customer extends Model
 {
@@ -14,14 +13,11 @@ class Customer extends Model
     protected $fillable =[
         'firstname',
         'lastname',
-        'phone'
+        'phone',
+        'pivot'
     ];
 
-    public function products(){
-        return $this->belongsToMany(Product::class);
-    }
-
-    public function salers(){
-        return $this->belongsToMany(User::class);
+    public function sales(){
+        return $this->hasMany(Sale::class)->withTimestamps();
     }
 }

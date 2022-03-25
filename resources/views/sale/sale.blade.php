@@ -1,5 +1,6 @@
 @php
     $i = 0;
+    $products_tab = [];
 @endphp
 @extends('layout.main')
 
@@ -18,16 +19,39 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
+        @if ($errors->any())
+        @foreach ($errors->all() as $error)
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Erreur ! </strong>{{ $error }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endforeach
+        @endif
+        <form action="{{ route('sale.store') }}" method="POST">
+            @csrf
         <div class="page-breadcrumb">
             <div class="row align-items-center">
-                <div class="col-5">
-                    <h4 class="page-title">Tous les produits</h4>
+                <div class="col-4">
+                    <h4 class="page-title">Tous les produits disponible</h4>
                 </div>
-                <div class="col-7">
+                <div class="col-4">
+                    <div class="row">
+                        <div class="col-6">
+                            <h5 class="mt-2">Information du client</h5>
+                        </div>
+                        <div class="col-6">
+                            <select name="customer" class="form-control">
+                                @foreach ($customers as $customer)
+                                    <option value="{{ $customer->id }}">{{ $customer->firstname }} {{ $customer->lastname }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
                     <div class="text-end upgrade-btn">
                         <a href="#" class="btn btn-success text-white" data-bs-toggle="modal" data-bs-target="#exampleModal"><i
-                            class="mdi mdi-plus"></i> Ajouter un
-                        nouveau produit</a>
+                            class="mdi mdi-plus"></i>Nouveau client</a>
                     </div>
                 </div>
                 </div>
@@ -35,75 +59,71 @@
         <div class="card mt-2" style="overflow:auto">
             @if(count($products)>0)
             <div class="card-body">
-                <h5 class="card-title">Produits</h5>
-                <div class="table-responsive">
-                    <table id="_config" class="table table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Désignation</th>
-                                <th>Emballage (Quatité)</th>
-                                <th>Unité</th>
-                                <th>Emballage</th>
-                                <th>Origine</th>
-                                <th>Poid (KG)</th>
-                                <th>Type</th>
-                                <th>Catégorie</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        @foreach ($products as $product)
-                        @php
-                            $i++
-                        @endphp
-                            <tr>
-                                <td>{{$i}}</td>
-                                <td>{{$product->name}}</td>
-                                <td>{{$product->qteEmballage}}</td>
-                                <td>{{$product->unit}}</td>
-                                <td>{{$product->typeEmballage}}</td>
-                                <td>{{$product->origine}}</td>
-                                <td>{{$product->weight}}</td>
-                                <td>{{$product->type->name}}</td>
-                                <td>{{$product->category->name}}</td>
-                                <td>
-                                    <form onsubmit="return confirm('Voulez-vous vraiment supprimer cet enregistrement ?')"
-                                        action="{{ route('product.delete',['id'=>$product->id]) }}" method="POST" >
-                                        @csrf
-                                        <input type="hidden" name="id" value="{{ $product->id }}">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <a title="Modifier" style="color: #fff"
-                                            href="{{ route('product.edit',['id'=>$product->id]) }}"
-                                            class="btn btn-success btn-xs"><i class="fas fa-pencil-alt"></i></a>
-                                        <button title="Supprimer" style="color: #fff" class="btn btn-danger btn-xs"><i
-                                                class="far fa-trash-alt"></i></button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>#</th>
-                                <th>Désignation</th>
-                                <th>Emballage (Quatité)</th>
-                                <th>Unité</th>
-                                <th>Emballage</th>
-                                <th>Origine</th>
-                                <th>Poid (KG)</th>
-                                <th>Type</th>
-                                <th>Catégorie</th>
-                                <th>Action</th>
-                            </tr>
-                        </tfoot>
-                    </table>
+                <div class="card-title">
                 </div>
-            </div>
+                <div class="table-responsive">
+                        <table id="_config" class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>Choix</th>
+                                    <th>Code</th>
+                                    <th>Désignation</th>
+                                    <th>Emballage</th>
+                                    <th>Quantité</th>
+                                </tr>
+                            </thead>
+                            <tbody class="customtable">
+                            @foreach ($products as $product)
+                                <tr>
+                                    <th>
+                                        @php
+                                            $products_tab[$i-1] = $product->id;
+                                        @endphp
+                                        <label class="customcheckbox mb-3">
+                                          <input type="checkbox" id="listCheckbox" name="product{{ $i }}" value="{{ $product->id }}"/>
+                                          <span class="checkmark"></span>
+                                        </label>
+                                      </th>
+                                    <td>
+                                        @foreach ($product->stores as $store)
+                                            @if ($store->name =='Limete')
+                                            {{ $store->pivot->code }}
+                                            @endif
+                                        @endforeach
+                                    </td>
+                                    <td>{{$product->name}}</td>
+                                    <td>{{$product->qteEmballage}} {{$product->unit}}</td>
+                                    <td><input type="number" class="form-control" name="qte{{ $i }}"></td>
+                                </tr>
+                                @php
+                                    $i++
+                                @endphp
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row" >
+                        <div class="col-md-5"></div>
+                        <div class="col-md-2">
+                            <div class="row">
+                                <button class="btn btn-lg btn-primary text-white" type="submit">Enregistrer</button>
+                            </div>
+                        </div>
+                        <div class="col-md-5"></div>
+                    </div>
+                </div>
+                <div style='display: none'>
+                    <select type="hidden" name="products[]" multiple>
+                        @foreach ($products_tab as $item)
+                        <option value="{{ $item }}" selected></option>
+                        @endforeach
+                    </select>
+                </div>
+            </form>
             @else
                 <div class="alert alert-danger">
-                                <p style="margin-bottom: 0;">Aucun produit enregistrée</p>
-                            </div>
+                    <p style="margin-bottom: 0;">Aucun produit enregistrée</p>
+                </div>
             @endif
         </div>
     </div>
@@ -111,65 +131,26 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ajouter un produit</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter un nouveau client</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" action="{{ route('product.store') }}">
+                <form method="POST" action="{{ route('customer.store') }}">
                     @csrf
                     <div class="modal-body">
                         <div class="row">
                             <div class="mb-3 col-md-6">
-                                <label for="name" class="form-label">Nom</label>
-                                <input type="text" class="form-control" required id="name" name="name">
+                                <label for="firstname" class="form-label">Prénom</label>
+                                <input type="text" class="form-control" required id="firstname" name="firstname">
                             </div>
                             <div class="mb-3 col-md-6">
-                                <label for="typeEmballage" class="form-label">Type emballage</label>
-                                <input type="text" class="form-control" required id="typeEmballage" name="typeEmballage">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-md-6">
-                                <label for="qteEmballage" class="form-label">Quatité</label>
-                                <input type="number" class="form-control" required id="qteEmballage" name="qteEmballage">
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="unit" class="form-label">Unité</label>
-                                <select class="form-control" name="unit" id="unit">
-                                    <option value="KG">Kilogramme(KG)</option>
-                                    <option value="L">Litre(L)</option>
-                                </select>
+                                <label for="lastname" class="form-label">Nom</label>
+                                <input type="text" class="form-control" required id="lastname" name="lastname">
                             </div>
                         </div>
                         <div class="row">
                             <div class="mb-3 col-md-6">
-                                <label for="origine" class="form-label">Origine</label>
-                                <input type="text" class="form-control" required id="origine" name="origine">
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="weight" class="form-label">Poids</label>
-                                <input type="number" class="form-control" required id="weight" name="weight">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-md-6">
-                                <label for="type" class="form-label">Type des moteurs</label>
-                                <select class="form-control" name="type">
-                                @if(isset($types))
-                                    @foreach ($types as $type)
-                                    <option value="{{ $type->id }}">{{ $type->name }}</option>
-                                    @endforeach
-                                @endif
-                                </select>
-                            </div>
-                            <div class="mb-3 col-md-6">
-                                <label for="category" class="form-label">Catégorie</label>
-                                <select class="form-control" name="category">
-                                @if(isset($categories))
-                                    @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                    @endforeach
-                                @endif
-                                </select>
+                                <label for="phone" class="form-label">Téléphone</label>
+                                <input type="text" class="form-control" required id="phone" name="phone">
                             </div>
                         </div>
                     </div>

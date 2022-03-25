@@ -130,7 +130,7 @@
                                     <option value="{{ $product->id }}">{{ $product->name }}</option>
                                     @endforeach
                                     @else
-                                        Aucun produit
+                                        <option value="0">Aucun produit</option>
                                     @endif
                                 </select>
                             </div>

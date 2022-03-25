@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Sale;
 use App\Models\Type;
 use App\Models\User;
 use App\Models\Store;
@@ -32,11 +33,8 @@ class Product extends Model
         return $this->belongsToMany(Store::class)->withPivot('code')
                                                     ->withTimestamps();;
     }
-    public function customers(){
-        return $this->belongsToMany(Customer::class);
-    }
-    public function salers(){
-        return $this->belongsToMany(User::class);
+    public function sales(){
+        return $this->belongsToMany(Sale::class)->withPivot('qte');
     }
     public function type(){
         return $this->belongsTo(Type::class);

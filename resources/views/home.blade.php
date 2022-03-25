@@ -8,10 +8,13 @@
             <h1 style="text-align: center">Gestion de vente </h1>
             <p style="text-align: center">Espace de travail pour vendeur</p>
         </div>
-        <div class="row justify-content-center">
+        <div class="row mt-md-5 justify-content-center">
             <div class="col-md-4"></div>
-            <div class="col-md-4 text-center">
-                <a href="" class="btn btn-dark btn-md mt-3">Enregistrer une vente</a>
+            <div class="col-md-2 text-center">
+                <a href="{{ route('sale') }}" class="btn btn-dark btn-md mt-3">Enregistrer une vente</a>
+            </div>
+            <div class="col-md-2 text-center">
+                <a href="{{ route('sale.show') }}" class="btn btn-dark btn-md mt-3">Voir les ventes</a>
             </div>
             <div class="col-md-4"></div>
         </div>

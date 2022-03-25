@@ -6,6 +6,7 @@ use App\Http\Controllers\DistributionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\TypeController;
@@ -32,6 +33,12 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function(){
     Route::get('/admin',[HomeController::class,'index'])->name('index');
+
+    Route::prefix('sales')->group(function(){
+        Route::get('/vente',[SaleController::class, 'index'])->name('sale');
+        Route::post('/vente',[SaleController::class, 'store'])->name('sale.store');
+        Route::get('/vente/all',[SaleController::class, 'show'])->name('sale.show');
+    });
 
     Route::get('/product',[ProductController::class,'index'])->name('product');
     Route::post('/product',[ProductController::class,'store'])->name('product.store');
@@ -99,7 +106,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/category',[CategoryController::class,'index'])->name('category');
     Route::post('/category',[CategoryController::class,'store'])->name('category.store');
     Route::get('/category/{id}',[CategoryController::class,'edit'])->name('category.edit')->where('id','[0-9]+');
-    Route::post('/setting/update',[CategoryController::class,'update'])->name('category.update');
+    Route::post('/category/update',[CategoryController::class,'update'])->name('category.update');
     Route::delete('/category/{id}',[CategoryController::class,'destroy'])->name('category.delete')->where('id','[0-9]+');
 
 
