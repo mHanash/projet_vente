@@ -93,7 +93,7 @@
                                     </td>
                                     <td>{{$product->name}}</td>
                                     <td>{{$product->qteEmballage}} {{$product->unit}}</td>
-                                    <td><input type="number" class="form-control" name="qte{{ $i }}"></td>
+                                    <td><input type="number" class="form-control" required name="qte{{ $i }}"></td>
                                 </tr>
                                 @php
                                     $i++
